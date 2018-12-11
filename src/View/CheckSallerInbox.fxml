@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="320.0" prefWidth="369.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.CheckSallerInbox">
+   <children>
+      <Button fx:id="btn_inbox" layoutX="23.0" layoutY="267.0" mnemonicParsing="false" onAction="#checkInbox" prefHeight="39.0" prefWidth="257.0" text="OK, Show me the requests!" />
+      <Label layoutX="28.0" layoutY="64.0" prefHeight="39.0" prefWidth="303.0" text="By pressing the OK button," />
+      <Label layoutX="35.0" prefHeight="64.0" prefWidth="193.0" text="Seller Inbox">
+         <font>
+            <Font name="Bernard MT Condensed" size="33.0" />
+         </font></Label>
+      <Label layoutX="23.0" layoutY="94.0" prefHeight="39.0" prefWidth="303.0" text="you agree to reply to every purchas" />
+      <Label layoutX="24.0" layoutY="121.0" prefHeight="39.0" prefWidth="303.0" text="request with:  Approve/Not Approve" />
+      <Label layoutX="25.0" layoutY="153.0" prefHeight="39.0" prefWidth="303.0" text="Massege will be send to the buyer" />
+      <Label layoutX="25.0" layoutY="181.0" prefHeight="39.0" prefWidth="303.0" text="If you will choose twise, the first click " />
+      <Label layoutX="25.0" layoutY="211.0" prefHeight="39.0" prefWidth="303.0" text="only will be handle" />
+   </children>
+</AnchorPane>
