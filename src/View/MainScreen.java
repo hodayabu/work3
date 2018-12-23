@@ -62,13 +62,14 @@ public class MainScreen extends Acontrol {
             Scene scene = new Scene(new Group());
             scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setTitle("Table View Sample");
-            stage.setWidth(1220);
+            stage.setWidth(1470);
             stage.setHeight(600);
 
             final Label label = new Label("Search Vacation");
             label.setFont(new Font("Arial", 20));
 
             table.setEditable(true);
+            table.setMinWidth(1470);
 
             TableColumn e1 = new TableColumn("Seller Name");
             e1.setMinWidth(100);
@@ -76,18 +77,18 @@ public class MainScreen extends Acontrol {
                     new PropertyValueFactory<VacationToShow, String>("user_saller"));
 
 
-            TableColumn e2 = new TableColumn("Air port Company");
-            e2.setMinWidth(100);
+            TableColumn e2 = new TableColumn("Flight Company");
+            e2.setMinWidth(120);
             e2.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("AirportCompany"));
 
             TableColumn e3 = new TableColumn("Departure Date");
-            e3.setMinWidth(100);
+            e3.setMinWidth(120);
             e3.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("dateDepar"));
 
             TableColumn e4 = new TableColumn("Arrival Date");
-            e4.setMinWidth(100);
+            e4.setMinWidth(120);
             e4.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("dateArive"));
 
@@ -97,17 +98,17 @@ public class MainScreen extends Acontrol {
                     new PropertyValueFactory<VacationToShow, String>("laggege"));
 
             TableColumn e6 = new TableColumn("Num Of Tickets");
-            e6.setMinWidth(100);
+            e6.setMinWidth(130);
             e6.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("num_of_tickets"));
 
             TableColumn e7 = new TableColumn("Destination Country");
-            e7.setMinWidth(100);
+            e7.setMinWidth(150);
             e7.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("destcountry"));
 
             TableColumn e8 = new TableColumn("Destination City");
-            e8.setMinWidth(100);
+            e8.setMinWidth(130);
             e8.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("destCity"));
 
@@ -117,18 +118,14 @@ public class MainScreen extends Acontrol {
                     new PropertyValueFactory<VacationToShow, String>("price"));
 
             TableColumn e10 = new TableColumn("Return Flight");
-            e10.setMinWidth(100);
+            e10.setMinWidth(120);
             e10.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("returnFlight"));
-            TableColumn e11 = new TableColumn("ticketType");
+
+            TableColumn e11 = new TableColumn("Ticket Type");
             e11.setMinWidth(100);
             e11.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("ticketType"));
-
-//            TableColumn e12 = new TableColumn("Vacation Id");
-//            e12.setMinWidth(100);
-//            e12.setCellValueFactory(
-//                    new PropertyValueFactory<VacationToShow, String>("vacationId"));
 
 
 
@@ -245,7 +242,7 @@ public class MainScreen extends Acontrol {
                 stage.setScene(scene);
                 stage.initModality(Modality.APPLICATION_MODAL);
                 Trade trade=fxmlLoader.getController();
-                trade.Init(vacationId,user_saller);
+                trade.Init(vacationId,user_saller,stage);
                 stage.show();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -282,7 +279,7 @@ public class MainScreen extends Acontrol {
         FXMLLoader fxmlLoader=new FXMLLoader();
         try {
             Parent root=fxmlLoader.load(getClass().getResource("CheckSallerInbox.fxml").openStream());
-            Scene scene=new Scene(root,300,320);
+            Scene scene=new Scene(root,400,320);
             scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);

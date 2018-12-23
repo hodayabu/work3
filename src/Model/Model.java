@@ -230,11 +230,11 @@ public class Model {
             pstmt.setString(1, buyer);
             pstmt.setInt(2, vacation_idBuyer);
             pstmt.setString(3, sellar);
-            pstmt.setInt(3, vacation_idSeller);
+            pstmt.setInt(4, vacation_idSeller);
             pstmt.executeUpdate();
 
             //delete vacation fron waiting requests
-            String sql2 = "DELETE FROM WaitingForTrades where vacationOfOffer=? AND vacationOfOffered=?";
+            String sql2 = "DELETE FROM WaitingForTrades where vacationOfOffer=? AND vacationOfOfferd=?";
             PreparedStatement pstmt1 = conn.prepareStatement(sql2);
             pstmt1.setInt(1, vacation_idBuyer);
             pstmt1.setInt(2, vacation_idSeller);
@@ -386,7 +386,7 @@ public class Model {
                 ArrayList<Vacation> vec=new ArrayList<>();
                 vec.add(vacation);
                 vec.add(buy);
-                ans.put(vec, rs.getString("buyerUser"));
+                ans.put(vec, rs.getString("offer_user"));
             }
 
         } catch (SQLException e) {
@@ -396,7 +396,7 @@ public class Model {
 
     }
 
-    private Vacation getTradeDetails(int vacationOfOffer) {
+    public Vacation getTradeDetails(int vacationOfOffer) {
         String sql = "SELECT * FROM vacationsForSale where vacationId=\"" + vacationOfOffer + "\"  ";
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
@@ -503,7 +503,7 @@ public class Model {
                         rs.getBoolean("available"),
                         rs.getInt("vacationId"),
                         rs.getString("price"));
-                Vacation sell=getTradeDetails(rs.getInt("vacationOfOffered"));
+                Vacation sell=getTradeDetails(rs.getInt("sellerVacation"));
                 ArrayList<Vacation> vec=new ArrayList<>();
                 vec.add(vacation);
                 vec.add(sell);
@@ -532,7 +532,7 @@ public class Model {
                         rs.getBoolean("available"),
                         rs.getInt("vacationId"),
                         rs.getString("price"));
-                Vacation sell=getTradeDetails(rs.getInt("vacationOfOffered"));
+                Vacation sell=getTradeDetails(rs.getInt("sellerVacation"));
                 ArrayList<Vacation> vec=new ArrayList<>();
                 vec.add(vacation);
                 vec.add(sell);
@@ -578,7 +578,7 @@ public class Model {
     public void notApproveTradeRequest(int vacation_idSeller,int vacation_idBuyer, String buyer) {
         String sellar = getCurrentLogInUser();
         //insert record into notApprove
-        String sql = "INSERT INTO TradeNotApprove (buyer,buyerVavation,seller,sellerrVacation) VALUES(?,?,?,?)";
+        String sql = "INSERT INTO TradeNotApprove (buyer,buyerVacation,seller,sellerVacation) VALUES(?,?,?,?)";
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, buyer);
@@ -589,7 +589,7 @@ public class Model {
 
 
             //delete from waitForSaller
-            String sql2 = "DELETE FROM WaitingForTrades where vacationOfOffer=? AND vacationOfOffered=?";
+            String sql2 = "DELETE FROM WaitingForTrades where vacationOfOffer=? AND vacationOfOfferd=?";
             PreparedStatement pstmt1 = conn.prepareStatement(sql2);
             pstmt1.setInt(1, vacation_idBuyer);
             pstmt1.setInt(2, vacation_idSeller);
@@ -775,7 +775,7 @@ public class Model {
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            if (rs.getString("saller").equals(user))
+            if (rs.getString("saller").equals(user) && rs.getBoolean("available")==true)
                 return rs.getInt("vacationId");
 
 

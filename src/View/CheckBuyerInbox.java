@@ -30,7 +30,7 @@ public class CheckBuyerInbox extends Acontrol {
             inboxBuyer.getItems().add(buiiedMsgBuyer(entry.getKey().getDestinationCity(),entry.getKey().getUser_saller(),entry.getKey().getDateDepar(),entry.getKey().getDateArrive(),entry.getValue()));
         }
         for (Map.Entry<ArrayList<Vacation>,Boolean> entry : allTradeMsg.entrySet()) {
-            inboxBuyer.getItems().add(buiiedTradeMsgBuyer(entry.getKey().get(0).getDestinationCity(),entry.getKey().get(0).getUser_saller(),entry.getKey().get(0).getDateDepar(),entry.getKey().get(0).getDateArrive(),entry.getKey().get(1).getDestinationCity(),entry.getKey().get(1).getUser_saller(),entry.getKey().get(1).getDateDepar(),entry.getKey().get(1).getDateArrive(),entry.getValue()));
+            inboxBuyer.getItems().add(buiiedTradeMsgBuyer(entry.getKey().get(1).getDestinationCity(),entry.getKey().get(1).getUser_saller(),entry.getKey().get(1).getDateDepar(),entry.getKey().get(1).getDateArrive(),entry.getKey().get(0).getDestinationCity(),entry.getKey().get(0).getUser_saller(),entry.getKey().get(0).getDateDepar(),entry.getKey().get(0).getDateArrive(),entry.getValue()));
         }
         inboxBuyer.setPrefWidth(900);
         Scene scene = new Scene(new Group());

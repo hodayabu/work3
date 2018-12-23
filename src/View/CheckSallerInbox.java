@@ -174,56 +174,61 @@ public class CheckSallerInbox extends Acontrol {
         Stage stage=new Stage();
         Scene scene = new Scene(new Group());
         stage.setTitle("Table View");
-        stage.setWidth(1100);
+        stage.setWidth(1420);
         stage.setHeight(500);
 
         final Label label = new Label("InboxTrade");
         label.setFont(new Font("Arial", 20));
 
         table.setEditable(true);
+        table.setMinWidth(1420);
 
-        TableColumn firstNameCol = new TableColumn("Yours Destination");
-        firstNameCol.setMinWidth(100);
+        TableColumn yourVacation = new TableColumn("Yours Vacation Details");
+        TableColumn offerVacation = new TableColumn("The Offered Vacation Details");
+
+
+        TableColumn firstNameCol = new TableColumn("Destination");
+        firstNameCol.setMinWidth(120);
         firstNameCol.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("dest"));
 
         TableColumn lastNameCol = new TableColumn("Buyer Name");
-        lastNameCol.setMinWidth(100);
+        lastNameCol.setMinWidth(120);
         lastNameCol.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("buyer"));
 
-        TableColumn emailCol = new TableColumn("Yours Departure Date");
-        emailCol.setMinWidth(100);
+        TableColumn emailCol = new TableColumn("Departure Date");
+        emailCol.setMinWidth(120);
         emailCol.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("depar"));
 
-        TableColumn ee = new TableColumn("Yours Arrival Date");
-        ee.setMinWidth(100);
+        TableColumn ee = new TableColumn("Arrival Date");
+        ee.setMinWidth(120);
         ee.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("arrive"));
 
-        TableColumn vid = new TableColumn("yours Vacation_Id");
-        vid.setMinWidth(100);
+        TableColumn vid = new TableColumn("Vacation_Id");
+        vid.setMinWidth(120);
         vid.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("Vacation_Id"));
 
-        TableColumn destT = new TableColumn("Trade Destination");
-        destT.setMinWidth(100);
+        TableColumn destT = new TableColumn("Destination");
+        destT.setMinWidth(120);
         destT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("destTrade"));
 
-        TableColumn depT = new TableColumn("Trade Departure Date");
-        depT.setMinWidth(100);
+        TableColumn depT = new TableColumn("Departure Date");
+        depT.setMinWidth(120);
         depT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("deparTrde"));
 
-        TableColumn arivT = new TableColumn("Trade Arrival Date");
-        arivT.setMinWidth(100);
+        TableColumn arivT = new TableColumn("Arrival Date");
+        arivT.setMinWidth(120);
         arivT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("arriveTrde"));
 
-        TableColumn vidT = new TableColumn("Trade Vacation_Id");
-        vidT.setMinWidth(100);
+        TableColumn vidT = new TableColumn("Vacation_Id");
+        vidT.setMinWidth(120);
         vidT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("Vacation_IdTrade"));
 
@@ -232,14 +237,51 @@ public class CheckSallerInbox extends Acontrol {
         actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
         TableColumn actionCol1 = new TableColumn("Not Approve");
-        actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        actionCol1.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        actionCol1.setMinWidth(120);
 
-        Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>> cellFactory
+        TableColumn actionCol2 = new TableColumn("More Details");
+        actionCol2.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        actionCol2.setMinWidth(120);
+
+
+        Callback<TableColumn<InboxTrade, String>, TableCell<InboxTrade, String>> cellFactory2
                 = //
-                new Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>>() {
+                new Callback<TableColumn<InboxTrade, String>, TableCell<InboxTrade, String>>() {
                     @Override
-                    public TableCell call(final TableColumn<Inbox, String> param) {
-                        final TableCell<Inbox, String> cell = new TableCell<Inbox, String>() {
+                    public TableCell call(final TableColumn<InboxTrade, String> param) {
+                        final TableCell<InboxTrade, String> cell = new TableCell<InboxTrade, String>() {
+
+                            final Button btn = new Button("See More Details");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setOnAction(event -> {
+                                        InboxTrade inbox = getTableView().getItems().get(getIndex());
+
+                                        showAlert(conection_layer.tradeDetails(inbox.getVacation_IdTrade()));
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+
+        Callback<TableColumn<InboxTrade, String>, TableCell<InboxTrade, String>> cellFactory
+                = //
+                new Callback<TableColumn<InboxTrade, String>, TableCell<InboxTrade, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<InboxTrade, String> param) {
+                        final TableCell<InboxTrade, String> cell = new TableCell<InboxTrade, String>() {
 
                             final Button btn = new Button("Approve");
 
@@ -251,9 +293,9 @@ public class CheckSallerInbox extends Acontrol {
                                     setText(null);
                                 } else {
                                     btn.setOnAction(event -> {
-                                        Inbox inbox = getTableView().getItems().get(getIndex());
-                                        conection_layer.Approve(inbox.Vacation_Id.get(),inbox.buyer.get());
-                                        showAlert("Vacation approved to sell");
+                                        InboxTrade inbox = getTableView().getItems().get(getIndex());
+                                        conection_layer.ApproveTrade(inbox.Vacation_Id.get(),inbox.getVacation_IdTrade(),inbox.buyer.get());
+                                        showAlert("Vacation approved to trade");
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -267,12 +309,12 @@ public class CheckSallerInbox extends Acontrol {
 
 
 
-        Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>> cellFactory1
+        Callback<TableColumn<InboxTrade, String>, TableCell<InboxTrade, String>> cellFactory1
                 = //
-                new Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>>() {
+                new Callback<TableColumn<InboxTrade, String>, TableCell<InboxTrade, String>>() {
                     @Override
-                    public TableCell call(final TableColumn<Inbox, String> param) {
-                        final TableCell<Inbox, String> cell = new TableCell<Inbox, String>() {
+                    public TableCell call(final TableColumn<InboxTrade, String> param) {
+                        final TableCell<InboxTrade, String> cell = new TableCell<InboxTrade, String>() {
 
                             final Button btn = new Button("Not Approve");
 
@@ -284,9 +326,9 @@ public class CheckSallerInbox extends Acontrol {
                                     setText(null);
                                 } else {
                                     btn.setOnAction(event -> {
-                                        Inbox inbox = getTableView().getItems().get(getIndex());
-                                        conection_layer.notApprove(inbox.Vacation_Id.get(),inbox.buyer.get());
-                                        showAlert("Vacation disapproved to sell");
+                                        InboxTrade inbox = getTableView().getItems().get(getIndex());
+                                        conection_layer.notApproveTrade(inbox.Vacation_Id.get(),inbox.getVacation_IdTrade(),inbox.buyer.get());
+                                        showAlert("Vacation disapproved to trade");
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -299,10 +341,12 @@ public class CheckSallerInbox extends Acontrol {
 
         actionCol.setCellFactory(cellFactory);
         actionCol1.setCellFactory(cellFactory1);
+        actionCol2.setCellFactory(cellFactory2);
 
         table.setItems(data);
-        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol,ee,vid,destT,depT,arivT,vidT,actionCol,actionCol1);
-
+        table.getColumns().addAll(yourVacation,offerVacation,actionCol,actionCol1);
+        yourVacation.getColumns().addAll(firstNameCol,emailCol,ee,vid,actionCol2);
+        offerVacation.getColumns().addAll(lastNameCol,destT,depT,arivT,vidT);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));

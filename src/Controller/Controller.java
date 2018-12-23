@@ -70,8 +70,17 @@ public class Controller {
     public void Approve(String vactionId,String buyer){
         model.approveRequest(Integer.valueOf(vactionId),buyer);
     }
+
+    public void ApproveTrade(String vactionIdseller,String vactionIdbuyer,String buyer){
+        model.ApproveTradeRequest(Integer.valueOf(vactionIdseller),Integer.valueOf(vactionIdbuyer),buyer);
+    }
+
     public void notApprove(String vactionId,String buyer){
         model.notApproveRequest(Integer.valueOf(vactionId),buyer);
+    }
+
+    public void notApproveTrade(String vactionIdseller,String vactionIdbuyer,String buyer){
+        model.notApproveTradeRequest(Integer.valueOf(vactionIdseller),Integer.valueOf(vactionIdbuyer),buyer);
     }
     public HashMap<Vacation,Boolean> InboxBuyer(){
         return model.checkMyBuyerInbox(model.getCurrentLogInUser());
@@ -111,5 +120,10 @@ public class Controller {
        else
            return false;
 
+    }
+
+    public String tradeDetails(String vacation_idTrade) {
+        Vacation vec=model.getTradeDetails(Integer.valueOf(vacation_idTrade));
+        return "Hello "+model.getCurrentLogInUser()+"\nThe details of the vacation that "+vec.getUser_saller()+" offered you are:\nCountry destination: "+vec.getDestinationCountry()+"\nCity destination: "+vec.getDestinationCity()+"\nDeparture date: "+vec.getDateDepar()+"\nArrival date: "+vec.getDateArrive()+"\nFlight company: "+vec.getAirPortCompany()+"\nLuggage : "+vec.getLagguge()+"\nnumber of tickets: "+vec.getNumOftickets();
     }
 }
