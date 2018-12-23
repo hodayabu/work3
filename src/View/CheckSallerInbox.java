@@ -14,12 +14,14 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class CheckSallerInbox extends Acontrol {
 
     public javafx.scene.control.Button btn_inbox;
+    public javafx.scene.control.Button btn_inboxTrade;
 
     public void checkInbox() {
         TableView<Inbox> table = new TableView<Inbox>();
@@ -159,4 +161,164 @@ public class CheckSallerInbox extends Acontrol {
 
 
     }
+
+
+    public void checkTradeInbox() {
+        TableView<InboxTrade> table = new TableView<InboxTrade>();
+        final ObservableList<InboxTrade> data =FXCollections.observableArrayList();
+        HashMap<ArrayList<Vacation>,String> ans=conection_layer.inboxTradeSaller();
+        for(Map.Entry<ArrayList<Vacation>,String> entry : ans.entrySet()) {
+            data.add(new InboxTrade(entry.getKey().get(0).getDestinationCity(), entry.getValue(), entry.getKey().get(0).getDateDepar(), entry.getKey().get(0).getDateArrive(), entry.getKey().get(0).getVacation_id(),entry.getKey().get(1).getDestinationCity(),entry.getKey().get(1).getDateDepar(),entry.getKey().get(1).getDateArrive(),entry.getKey().get(1).getVacation_id()));
+        }
+
+        Stage stage=new Stage();
+        Scene scene = new Scene(new Group());
+        stage.setTitle("Table View");
+        stage.setWidth(1100);
+        stage.setHeight(500);
+
+        final Label label = new Label("InboxTrade");
+        label.setFont(new Font("Arial", 20));
+
+        table.setEditable(true);
+
+        TableColumn firstNameCol = new TableColumn("Yours Destination");
+        firstNameCol.setMinWidth(100);
+        firstNameCol.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("dest"));
+
+        TableColumn lastNameCol = new TableColumn("Buyer Name");
+        lastNameCol.setMinWidth(100);
+        lastNameCol.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("buyer"));
+
+        TableColumn emailCol = new TableColumn("Yours Departure Date");
+        emailCol.setMinWidth(100);
+        emailCol.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("depar"));
+
+        TableColumn ee = new TableColumn("Yours Arrival Date");
+        ee.setMinWidth(100);
+        ee.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("arrive"));
+
+        TableColumn vid = new TableColumn("yours Vacation_Id");
+        vid.setMinWidth(100);
+        vid.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("Vacation_Id"));
+
+        TableColumn destT = new TableColumn("Trade Destination");
+        destT.setMinWidth(100);
+        destT.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("destTrade"));
+
+        TableColumn depT = new TableColumn("Trade Departure Date");
+        depT.setMinWidth(100);
+        depT.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("deparTrde"));
+
+        TableColumn arivT = new TableColumn("Trade Arrival Date");
+        arivT.setMinWidth(100);
+        arivT.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("arriveTrde"));
+
+        TableColumn vidT = new TableColumn("Trade Vacation_Id");
+        vidT.setMinWidth(100);
+        vidT.setCellValueFactory(
+                new PropertyValueFactory<InboxTrade, String>("Vacation_IdTrade"));
+
+
+        TableColumn actionCol = new TableColumn("Approve");
+        actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        TableColumn actionCol1 = new TableColumn("Not Approve");
+        actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>> cellFactory
+                = //
+                new Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Inbox, String> param) {
+                        final TableCell<Inbox, String> cell = new TableCell<Inbox, String>() {
+
+                            final Button btn = new Button("Approve");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setOnAction(event -> {
+                                        Inbox inbox = getTableView().getItems().get(getIndex());
+                                        conection_layer.Approve(inbox.Vacation_Id.get(),inbox.buyer.get());
+                                        showAlert("Vacation approved to sell");
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+
+
+
+        Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>> cellFactory1
+                = //
+                new Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Inbox, String> param) {
+                        final TableCell<Inbox, String> cell = new TableCell<Inbox, String>() {
+
+                            final Button btn = new Button("Not Approve");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setOnAction(event -> {
+                                        Inbox inbox = getTableView().getItems().get(getIndex());
+                                        conection_layer.notApprove(inbox.Vacation_Id.get(),inbox.buyer.get());
+                                        showAlert("Vacation disapproved to sell");
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
+        actionCol.setCellFactory(cellFactory);
+        actionCol1.setCellFactory(cellFactory1);
+
+        table.setItems(data);
+        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol,ee,vid,destT,depT,arivT,vidT,actionCol,actionCol1);
+
+        final VBox vbox = new VBox();
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().addAll(label, table);
+
+        ((Group) scene.getRoot()).getChildren().addAll(vbox);
+
+        stage.setScene(scene);
+        stage.show();
+
+
+    }
+
 }
+
+
+
+
+

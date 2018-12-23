@@ -85,6 +85,14 @@ public class Controller {
         return model.checkMySellarInbox(model.getCurrentLogInUser());
     }
 
+    public HashMap<ArrayList<Vacation>,String> inboxTradeSaller(){
+        return model.checkTradeSellarInbox(model.getCurrentLogInUser());
+    }
+
+    public HashMap<ArrayList<Vacation>,Boolean> inboxTradeBuyer(){
+        return model.checkTradeBuyerInbox(model.getCurrentLogInUser());
+    }
+
 
     public ArrayList<Vacation> search_vacation_by_country(String country){
         return model.search_vacation_by_country(country);
@@ -97,4 +105,11 @@ public class Controller {
         return true;
     }
 
+    public boolean trade(String vacationId, String user_saller, String dest_country, String arrival, String departure) {
+       if(model.trade(vacationId,user_saller,dest_country,arrival,departure))
+           return true;
+       else
+           return false;
+
+    }
 }

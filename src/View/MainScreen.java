@@ -135,8 +135,11 @@ public class MainScreen extends Acontrol {
 
 
 
-            TableColumn actionCol = new TableColumn("Parches");
-            actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+            TableColumn actionCol1 = new TableColumn("Parches");
+            actionCol1.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+            TableColumn actionCol2 = new TableColumn("Trade");
+            actionCol2.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
 
             Callback<TableColumn<VacationToShow, String>, TableCell<VacationToShow, String>> cellFactory
@@ -170,7 +173,40 @@ public class MainScreen extends Acontrol {
 
 
 
-                       actionCol.setCellFactory(cellFactory);
+
+            Callback<TableColumn<VacationToShow, String>, TableCell<VacationToShow, String>> cellFactory1
+                    = //
+                    new Callback<TableColumn<VacationToShow, String>, TableCell<VacationToShow, String>>() {
+                        @Override
+                        public TableCell call(final TableColumn<VacationToShow, String> param) {
+                            final TableCell<VacationToShow, String> cell = new TableCell<VacationToShow, String>() {
+
+                                final Button btn = new Button("Trade");
+
+                                @Override
+                                public void updateItem(String item, boolean empty) {
+                                    super.updateItem(item, empty);
+                                    if (empty) {
+                                        setGraphic(null);
+                                        setText(null);
+                                    } else {
+                                        btn.setOnAction(event -> {
+                                            VacationToShow vts = getTableView().getItems().get(getIndex());
+                                            openTrade(vts.getVacationId(),vts.getUser_saller());
+                                        });
+                                        setGraphic(btn);
+                                        setText(null);
+                                    }
+                                }
+                            };
+                            return cell;
+                        }
+                    };
+
+
+
+                       actionCol1.setCellFactory(cellFactory);
+                       actionCol2.setCellFactory(cellFactory1);
 
 
 
@@ -179,7 +215,7 @@ public class MainScreen extends Acontrol {
 
 
             table.setItems(data);
-            table.getColumns().addAll(e1, e2, e3,e4,e5,e6,e7,e8,e9,e10,e11/**,e12**/,actionCol);
+            table.getColumns().addAll(e1, e2, e3,e4,e5,e6,e7,e8,e9,e10,e11/**,e12**/,actionCol1,actionCol2);
 
             final VBox vbox = new VBox();
             vbox.setSpacing(5);
@@ -192,6 +228,28 @@ public class MainScreen extends Acontrol {
             stage.show();
 
 
+        }
+    }
+
+    private void openTrade(String vacationId,String user_saller) {
+        if(!(conection_layer.isConnect()))
+            showAlert("you must log-in first before you can exchange vacations");
+        else {
+            Stage stage=new Stage();
+            stage.setTitle("trade");
+            FXMLLoader fxmlLoader=new FXMLLoader();
+            try {
+                Parent root=fxmlLoader.load(getClass().getResource("trade.fxml").openStream());
+                Scene scene=new Scene(root,600,600);
+                scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
+                stage.setScene(scene);
+                stage.initModality(Modality.APPLICATION_MODAL);
+                Trade trade=fxmlLoader.getController();
+                trade.Init(vacationId,user_saller);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

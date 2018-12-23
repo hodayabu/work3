@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,9 +24,13 @@ public class CheckBuyerInbox extends Acontrol {
         Stage stage=new Stage();
         inboxBuyer = new ListView();
         HashMap<Vacation,Boolean> allMsg=conection_layer.InboxBuyer();
+        HashMap<ArrayList<Vacation>,Boolean> allTradeMsg=conection_layer.inboxTradeBuyer();
 
         for (Map.Entry<Vacation,Boolean> entry : allMsg.entrySet()) {
             inboxBuyer.getItems().add(buiiedMsgBuyer(entry.getKey().getDestinationCity(),entry.getKey().getUser_saller(),entry.getKey().getDateDepar(),entry.getKey().getDateArrive(),entry.getValue()));
+        }
+        for (Map.Entry<ArrayList<Vacation>,Boolean> entry : allTradeMsg.entrySet()) {
+            inboxBuyer.getItems().add(buiiedTradeMsgBuyer(entry.getKey().get(0).getDestinationCity(),entry.getKey().get(0).getUser_saller(),entry.getKey().get(0).getDateDepar(),entry.getKey().get(0).getDateArrive(),entry.getKey().get(1).getDestinationCity(),entry.getKey().get(1).getUser_saller(),entry.getKey().get(1).getDateDepar(),entry.getKey().get(1).getDateArrive(),entry.getValue()));
         }
         inboxBuyer.setPrefWidth(900);
         Scene scene = new Scene(new Group());
@@ -39,6 +44,14 @@ public class CheckBuyerInbox extends Acontrol {
         group.getChildren().addAll(vBox);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private Object buiiedTradeMsgBuyer(String destinationCity, String user_saller, String dateDepar, String dateArrive, String destinationCity1, String user_saller1, String dateDepar1, String dateArrive1, Boolean approve) {
+        if(approve)
+            return "Congratulations! Your request for trade with "+user_saller+" your vacation to "+destinationCity+" from "+dateDepar+" to "+dateArrive+" approved!!\nThe vacation you asked for is from "+destinationCity1+" at "+dateDepar1+" until "+dateArrive1+". Have a nice trip!";
+        return "We are sorry! Your request for trade with "+user_saller+" your vacation to "+destinationCity+" from "+dateDepar+" to "+dateArrive+" was not approved!!\nThe vacation you asked for is from "+destinationCity1+" at "+dateDepar1+" until "+dateArrive1+". Keep on looking!";
+
+
     }
 
     private Object buiiedMsgBuyer(String cityDest,String sellar, String dateDep,String dateArrive,boolean approve) {
