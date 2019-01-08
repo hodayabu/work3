@@ -251,7 +251,7 @@ public class MainScreen extends Acontrol {
         if(!(conection_layer.isConnect()))
             showAlert("only register users can parches");
         else {
-                String phone=conection_layer.buy_vacation_with_credit(Integer.valueOf(vacationId));
+                String phone=conection_layer.buy_vacation(Integer.valueOf(vacationId));
                 showAlert("Dear user,\nWe have got your purchase request.\nPlease check your inboxBuyer for respond");
                 }
 

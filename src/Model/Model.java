@@ -169,21 +169,6 @@ public class Model {
             pstmt.setString(7, currentuser);
 
 
-            // set the corresponding param
-            /*
-            if((!newuser.equals("")))
-                pstmt.setString(1, newuser);
-            if((!pass.equals("")))
-                pstmt.setString(2, pass);
-            if((!birth.equals("")))
-                pstmt.setString(3, birth);
-            if((!first.equals("")))
-                pstmt.setString(4, first);
-            if((!last.equals("")))
-                pstmt.setString(5, last);
-            if((!city.equals("")))
-                pstmt.setString(6, city);
-            */
             // update
             List<String> ans = help(currentuser, newuser, pass, birth, first, last, city);
             pstmt.setString(1, ans.get(0));
@@ -211,11 +196,6 @@ public class Model {
             pstmt.setString(3, sellar);
             pstmt.executeUpdate();
 
-            //delete vacation fron waiting requests
-//            String sql2 = "DELETE FROM waitForSellar where vacationId=?";
-//            PreparedStatement pstmt1 = conn.prepareStatement(sql2);
-//            pstmt1.setInt(1, vactionId);
-//            pstmt1.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -667,7 +647,7 @@ public class Model {
         }
     }
 
-    public String buy_vacation_with_credit(int vacationId, String user_buyer) {
+    public String buy_vacation(int vacationId, String user_buyer) {
         update_availbility(vacationId, false);
         add_recordIn_waitingForSallerVerefication(vacationId, user_buyer, get_the_saller(vacationId));
         String Phone=getPhone(vacationId);
@@ -729,28 +709,6 @@ public class Model {
         }
     }
 
-
-
-
-    public void buy_vacation_with_paypal(int vacationId, String buyer, String userpaypal, String pass) {
-        add_Record_of_payment_table_paypal(buyer, userpaypal, pass);
-        update_availbility(vacationId, false);
-        add_recordIn_waitingForSallerVerefication(vacationId, buyer, get_the_saller(vacationId));
-    }
-
-    private void add_Record_of_payment_table_paypal(String buyer, String userpaypal, String pass) {
-        String sql = "INSERT INTO paypal (userpaypal,password,buyer) VALUES(?,?,?)";
-
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, userpaypal);
-            pstmt.setString(2, pass);
-            pstmt.setString(3, buyer);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
     public boolean trade(String vacationId, String user_saller, String dest_country, String arrival, String departure) {
         int vac2=vacation_exist(dest_country, arrival, departure);

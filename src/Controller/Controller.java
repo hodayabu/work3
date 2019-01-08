@@ -44,8 +44,8 @@ public class Controller {
         return true;
     }
 
-    public String buy_vacation_with_credit(int vacationId) {
-        return model.buy_vacation_with_credit(vacationId,model.getCurrentLogInUser());
+    public String buy_vacation(int vacationId) {
+        return model.buy_vacation(vacationId,model.getCurrentLogInUser());
     }
 
     public void delete(String userr) {
@@ -104,12 +104,6 @@ public class Controller {
         return model.search_vacation_by_country(country);
     }
 
-    public boolean buy_vacation_with_paypal(int vacationId,String user,String pass) {
-        if(model.getCurrentLogInUser().equals(""))
-            return false;//user need to log in
-        model.buy_vacation_with_paypal(vacationId,model.getCurrentLogInUser(),user,pass);
-        return true;
-    }
 
     public boolean trade(String vacationId, String user_saller, String dest_country, String arrival, String departure) {
        if(model.trade(vacationId,user_saller,dest_country,arrival,departure))

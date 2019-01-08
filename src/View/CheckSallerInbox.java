@@ -96,7 +96,7 @@ public class CheckSallerInbox extends Acontrol {
                                     btn.setOnAction(event -> {
                                         Inbox inbox = getTableView().getItems().get(getIndex());
                                         conection_layer.Approve(inbox.Vacation_Id.get(),inbox.buyer.get());
-                                        showAlert("Vacation approved to sell");
+                                        showAlert("Vacation approved to sell\nThe buyer will contact at your phone for payment arranges.\nPlease after you get the money-confirm it here on the inbox!");
                                     });
                                     setGraphic(btn);
                                     setText(null);
@@ -376,8 +376,8 @@ public class CheckSallerInbox extends Acontrol {
 
         table.setItems(data);
         table.getColumns().addAll(yourVacation,offerVacation,actionCol,actionCol1);
-        yourVacation.getColumns().addAll(firstNameCol,emailCol,ee,vid,actionCol2);
-        offerVacation.getColumns().addAll(lastNameCol,destT,depT,arivT,vidT);
+        yourVacation.getColumns().addAll(firstNameCol,emailCol,ee,vid);
+        offerVacation.getColumns().addAll(lastNameCol,destT,depT,arivT,vidT,actionCol2);
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
         vbox.setPadding(new Insets(10, 0, 0, 10));
