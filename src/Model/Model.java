@@ -760,5 +760,14 @@ public class Model {
             System.out.println(e.getMessage());
         }
 
+        String sql2 = "DELETE FROM vacationsForSale where vacationId=?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt1 = conn.prepareStatement(sql2)) {
+            pstmt1.setInt(1, Integer.valueOf(id));
+            pstmt1.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }
