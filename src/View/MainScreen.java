@@ -76,7 +76,7 @@ public class MainScreen extends Acontrol {
             e1.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("user_saller"));
 
-///
+/////
             TableColumn e2 = new TableColumn("Flight Company");
             e2.setMinWidth(120);
             e2.setCellValueFactory(
