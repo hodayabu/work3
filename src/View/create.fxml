@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.BoxBlur?>
 <?import javafx.scene.image.Image?>
@@ -20,7 +21,7 @@
             <BoxBlur />
          </effect>
       </ImageView>
-      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="19.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="26.0" layoutY="504.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="/1.png" />
          </image>
@@ -30,6 +31,7 @@
             <Font name="Comic Sans MS Bold Italic" size="49.0" />
          </font>
       </Label>
+      <TextField fx:id="phone" layoutX="484.0" layoutY="405.0" prefHeight="25.0" prefWidth="200.0" />
       <TextField fx:id="u_name" layoutX="188.0" layoutY="178.0" />
       <TextField fx:id="password" layoutX="186.0" layoutY="263.0" />
       <TextField fx:id="f_name" layoutX="622.0" layoutY="178.0" />
@@ -48,7 +50,7 @@
          <font>
             <Font name="Comic Sans MS Bold" size="24.0" />
          </font></Label>
-      <Button fx:id="btn_ImDone" layoutX="368.0" layoutY="416.0" mnemonicParsing="false" onAction="#Insert" prefHeight="64.0" prefWidth="148.0" text="I'm done!">
+      <Button fx:id="btn_ImDone" layoutX="374.0" layoutY="489.0" mnemonicParsing="false" onAction="#Insert" prefHeight="64.0" prefWidth="148.0" text="I'm done!">
          <font>
             <Font name="Comic Sans MS Bold" size="24.0" />
          </font></Button>
@@ -68,5 +70,10 @@
          </font>
       </Label>
       <DatePicker fx:id="BDay" layoutX="188.0" layoutY="336.0" />
+      <Label layoutX="262.0" layoutY="409.0" prefHeight="49.0" prefWidth="186.0" text="Phone number:" textAlignment="CENTER">
+         <font>
+            <Font name="Comic Sans MS Bold" size="24.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

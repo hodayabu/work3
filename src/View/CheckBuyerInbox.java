@@ -27,7 +27,7 @@ public class CheckBuyerInbox extends Acontrol {
         HashMap<ArrayList<Vacation>,Boolean> allTradeMsg=conection_layer.inboxTradeBuyer();
 
         for (Map.Entry<Vacation,Boolean> entry : allMsg.entrySet()) {
-            inboxBuyer.getItems().add(buiiedMsgBuyer(entry.getKey().getDestinationCity(),entry.getKey().getUser_saller(),entry.getKey().getDateDepar(),entry.getKey().getDateArrive(),entry.getValue()));
+            inboxBuyer.getItems().add(buiiedMsgBuyer(conection_layer.getPhone(entry.getKey().getVacation_id()),entry.getKey().getDestinationCity(),entry.getKey().getUser_saller(),entry.getKey().getDateDepar(),entry.getKey().getDateArrive(),entry.getValue()));
         }
         for (Map.Entry<ArrayList<Vacation>,Boolean> entry : allTradeMsg.entrySet()) {
             inboxBuyer.getItems().add(buiiedTradeMsgBuyer(entry.getKey().get(1).getDestinationCity(),entry.getKey().get(1).getUser_saller(),entry.getKey().get(1).getDateDepar(),entry.getKey().get(1).getDateArrive(),entry.getKey().get(0).getDestinationCity(),entry.getKey().get(0).getUser_saller(),entry.getKey().get(0).getDateDepar(),entry.getKey().get(0).getDateArrive(),entry.getValue()));
@@ -50,13 +50,11 @@ public class CheckBuyerInbox extends Acontrol {
         if(approve)
             return "Congratulations! Your request for trade with "+user_saller+" your vacation to "+destinationCity+" from "+dateDepar+" to "+dateArrive+" approved!!\nThe vacation you asked for is from "+destinationCity1+" at "+dateDepar1+" until "+dateArrive1+". Have a nice trip!";
         return "We are sorry! Your request for trade with "+user_saller+" your vacation to "+destinationCity+" from "+dateDepar+" to "+dateArrive+" was not approved!!\nThe vacation you asked for is from "+destinationCity1+" at "+dateDepar1+" until "+dateArrive1+". Keep on looking!";
-
-
     }
 
-    private Object buiiedMsgBuyer(String cityDest,String sellar, String dateDep,String dateArrive,boolean approve) {
+    private Object buiiedMsgBuyer(String phone,String cityDest,String sellar, String dateDep,String dateArrive,boolean approve) {
         if(approve)
-            return "Congratulations! The vacation to "+cityDest+" from "+dateDep+" to "+dateArrive+" is now approved by the seller "+sellar+". Have a nice trip!";
+            return "Almost there! The vacation to "+cityDest+" from "+dateDep+" to "+dateArrive+" is now approved by the seller "+sellar+".\nPlease contact for final payment at "+phone;
         return "We are sorry! The vacation to "+cityDest+" from "+dateDep+" to "+dateArrive+" is not approved to purchase by the seller "+sellar+". Keep on looking!";
 
     }

@@ -25,8 +25,8 @@ public class Controller {
         return true;
     }
 
-    public void Insert(String user, String pass, String birth, String first, String last, String city){
-        model.Insert(user,pass,birth,first,last,city);
+    public void Insert(String phone,String user, String pass, String birth, String first, String last, String city){
+        model.Insert(phone,user,pass,birth,first,last,city);
     }
 
     public boolean exist(String userr) {
@@ -44,11 +44,8 @@ public class Controller {
         return true;
     }
 
-    public boolean buy_vacation_with_credit(int vacationId,String credit_number,String cvd,String experation,String cardType) {
-        if(model.getCurrentLogInUser().equals(""))
-            return false;//user need to log in
-        model.buy_vacation_with_credit(vacationId,model.getCurrentLogInUser(),credit_number,cvd,experation,cardType);
-        return true;
+    public String buy_vacation_with_credit(int vacationId) {
+        return model.buy_vacation_with_credit(vacationId,model.getCurrentLogInUser());
     }
 
     public void delete(String userr) {
@@ -125,5 +122,13 @@ public class Controller {
     public String tradeDetails(String vacation_idTrade) {
         Vacation vec=model.getTradeDetails(Integer.valueOf(vacation_idTrade));
         return "Hello "+model.getCurrentLogInUser()+"\nThe details of the vacation that "+vec.getUser_saller()+" offered you are:\nCountry destination: "+vec.getDestinationCountry()+"\nCity destination: "+vec.getDestinationCity()+"\nDeparture date: "+vec.getDateDepar()+"\nArrival date: "+vec.getDateArrive()+"\nFlight company: "+vec.getAirPortCompany()+"\nLuggage : "+vec.getLagguge()+"\nnumber of tickets: "+vec.getNumOftickets();
+    }
+
+    public String getPhone(int id) {
+        return model.getPhone(id);
+    }
+
+    public void gotTheMoney(String id, String buyer) {
+        model.gotTheMoney(id,buyer);
     }
 }

@@ -1,7 +1,6 @@
 package View;
 
 import Model.Vacation;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +18,6 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainScreen extends Acontrol {
 
@@ -72,58 +69,58 @@ public class MainScreen extends Acontrol {
             table.setMinWidth(1470);
 
             TableColumn e1 = new TableColumn("Seller Name");
-            e1.setMinWidth(100);
+            e1.setMinWidth(90);
             e1.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("user_saller"));
 
 ///////
             TableColumn e2 = new TableColumn("Flight Company");
-            e2.setMinWidth(120);
+            e2.setMinWidth(90);
             e2.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("AirportCompany"));
 
             TableColumn e3 = new TableColumn("Departure Date");
-            e3.setMinWidth(120);
+            e3.setMinWidth(90);
             e3.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("dateDepar"));
 
             TableColumn e4 = new TableColumn("Arrival Date");
-            e4.setMinWidth(120);
+            e4.setMinWidth(90);
             e4.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("dateArive"));
 
             TableColumn e5 = new TableColumn("Luggage");
-            e5.setMinWidth(100);
+            e5.setMinWidth(90);
             e5.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("laggege"));
 
             TableColumn e6 = new TableColumn("Num Of Tickets");
-            e6.setMinWidth(130);
+            e6.setMinWidth(90);
             e6.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("num_of_tickets"));
 
             TableColumn e7 = new TableColumn("Destination Country");
-            e7.setMinWidth(150);
+            e7.setMinWidth(90);
             e7.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("destcountry"));
 
             TableColumn e8 = new TableColumn("Destination City");
-            e8.setMinWidth(130);
+            e8.setMinWidth(90);
             e8.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("destCity"));
 
             TableColumn e9 = new TableColumn("Price");
-            e9.setMinWidth(100);
+            e9.setMinWidth(90);
             e9.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("price"));
 
             TableColumn e10 = new TableColumn("Return Flight");
-            e10.setMinWidth(120);
+            e10.setMinWidth(90);
             e10.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("returnFlight"));
 
             TableColumn e11 = new TableColumn("Ticket Type");
-            e11.setMinWidth(100);
+            e11.setMinWidth(90);
             e11.setCellValueFactory(
                     new PropertyValueFactory<VacationToShow, String>("ticketType"));
 
@@ -157,7 +154,7 @@ public class MainScreen extends Acontrol {
                                     } else {
                                         btn.setOnAction(event -> {
                                             VacationToShow vts = getTableView().getItems().get(getIndex());
-                                            openParches(vts.getVacationId());
+                                            payment(vts.getVacationId());
                                         });
                                         setGraphic(btn);
                                         setText(null);
@@ -250,26 +247,14 @@ public class MainScreen extends Acontrol {
         }
     }
 
-    private void openParches(String vacationId) {
+    private void payment(String vacationId) {
         if(!(conection_layer.isConnect()))
             showAlert("only register users can parches");
         else {
-            Stage stage=new Stage();
-            stage.setTitle("parches");
-            FXMLLoader fxmlLoader=new FXMLLoader();
-            try {
-                Parent root=fxmlLoader.load(getClass().getResource("purches.fxml").openStream());
-                Scene scene=new Scene(root,600,600);
-                scene.getStylesheets().add(getClass().getResource("ViewStyle.css").toExternalForm());
-                stage.setScene(scene);
-                stage.initModality(Modality.APPLICATION_MODAL);
-                purches purches=fxmlLoader.getController();
-                purches.Init(vacationId);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+                String phone=conection_layer.buy_vacation_with_credit(Integer.valueOf(vacationId));
+                showAlert("Dear user,\nWe have got your purchase request.\nPlease check your inboxBuyer for respond");
+                }
+
     }
 
 

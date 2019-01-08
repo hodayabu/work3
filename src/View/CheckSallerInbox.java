@@ -72,7 +72,10 @@ public class CheckSallerInbox extends Acontrol {
         actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
         TableColumn actionCol1 = new TableColumn("Not Approve");
-        actionCol.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+        actionCol1.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
+
+        TableColumn actionCol2 = new TableColumn("Got the money");
+        actionCol2.setCellValueFactory(new PropertyValueFactory<>("DUMMY"));
 
         Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>> cellFactory
                 = //
@@ -137,17 +140,45 @@ public class CheckSallerInbox extends Acontrol {
                     }
                 };
 
+
+
+        Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>> cellFactory2
+                = //
+                new Callback<TableColumn<Inbox, String>, TableCell<Inbox, String>>() {
+                    @Override
+                    public TableCell call(final TableColumn<Inbox, String> param) {
+                        final TableCell<Inbox, String> cell = new TableCell<Inbox, String>() {
+
+                            final Button btn = new Button("Got the money");
+
+                            @Override
+                            public void updateItem(String item, boolean empty) {
+                                super.updateItem(item, empty);
+                                if (empty) {
+                                    setGraphic(null);
+                                    setText(null);
+                                } else {
+                                    btn.setOnAction(event -> {
+                                        Inbox inbox = getTableView().getItems().get(getIndex());
+                                        conection_layer.gotTheMoney(inbox.Vacation_Id.get(),inbox.buyer.get());
+                                        showAlert("Thank you! Hope you have pleasant experience. Your vacation is now officially sold to the buyer ");
+                                    });
+                                    setGraphic(btn);
+                                    setText(null);
+                                }
+                            }
+                        };
+                        return cell;
+                    }
+                };
+
         actionCol.setCellFactory(cellFactory);
         actionCol1.setCellFactory(cellFactory1);
-
-
-
-
-
+        actionCol2.setCellFactory(cellFactory2);
 
 
         table.setItems(data);
-        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol,ee,vid,actionCol,actionCol1);
+        table.getColumns().addAll(firstNameCol, lastNameCol, emailCol,ee,vid,actionCol,actionCol1,actionCol2);
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
@@ -357,6 +388,10 @@ public class CheckSallerInbox extends Acontrol {
         stage.setScene(scene);
         stage.show();
 
+
+    }
+
+    public void paymentApproval(){
 
     }
 

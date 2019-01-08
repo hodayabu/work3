@@ -32,9 +32,9 @@ public class Model {
     }
 
 
-    public void Insert(String user, String pass, String birth, String first, String last, String city) {
+    public void Insert(String phone,String user, String pass, String birth, String first, String last, String city) {
 
-        String sql = "INSERT INTO users (user_name,password,BDay,first_name,last_name, city) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO users (user_name,password,BDay,first_name,last_name, city, phone) VALUES(?,?,?,?,?,?,?)";
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -44,6 +44,7 @@ public class Model {
             pstmt.setString(4, first);
             pstmt.setString(5, last);
             pstmt.setString(6, city);
+            pstmt.setString(7, phone);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -211,10 +212,10 @@ public class Model {
             pstmt.executeUpdate();
 
             //delete vacation fron waiting requests
-            String sql2 = "DELETE FROM waitForSellar where vacationId=?";
-            PreparedStatement pstmt1 = conn.prepareStatement(sql2);
-            pstmt1.setInt(1, vactionId);
-            pstmt1.executeUpdate();
+//            String sql2 = "DELETE FROM waitForSellar where vacationId=?";
+//            PreparedStatement pstmt1 = conn.prepareStatement(sql2);
+//            pstmt1.setInt(1, vactionId);
+//            pstmt1.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -614,8 +615,13 @@ public class Model {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
+
             while (rs.next()) {
-                Vacation vacation = new Vacation(rs.getString("saller"),
+                String seller=rs.getString("saller");
+                String userNow=getCurrentLogInUser();
+                if(userNow.equals(seller))
+                    continue;
+                Vacation vacation = new Vacation(seller,
                         rs.getString("airPortCampany"),
                         rs.getString("dateDeparture"),
                         rs.getString("dateArrive"),
@@ -661,11 +667,26 @@ public class Model {
         }
     }
 
-    public void buy_vacation_with_credit(int vacationId, String user_buyer, String credit_number, String cvd, String experation, String cardType) {
-
-        add_Record_of_payment_table_credit(user_buyer, credit_number, cvd, experation, cardType);
+    public String buy_vacation_with_credit(int vacationId, String user_buyer) {
         update_availbility(vacationId, false);
         add_recordIn_waitingForSallerVerefication(vacationId, user_buyer, get_the_saller(vacationId));
+        String Phone=getPhone(vacationId);
+        return Phone;
+    }
+
+    public String getPhone(int vacationId) {
+        String sql = "SELECT * FROM vacationsForSale INNER JOIN users ON vacationsForSale.saller = users.user_name where vacationId=\"" + vacationId + "\"  ";
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            String phone=rs.getString("phone");
+            return phone;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return "";
+
     }
 
     private void add_recordIn_waitingForSallerVerefication(int vacationId, String user_buyer, String user_saller) {
@@ -708,21 +729,7 @@ public class Model {
         }
     }
 
-    private void add_Record_of_payment_table_credit(String user_buyer, String credit_number, String cvd, String experation, String cardType) {
-        String sql = "INSERT INTO PaymentData (userName,creditNumber,cvd,experation,cardType) VALUES(?,?,?,?,?)";
 
-        try (Connection conn = this.connect();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setString(1, user_buyer);
-            pstmt.setString(2, credit_number);
-            pstmt.setString(3, cvd);
-            pstmt.setString(4, experation);
-            pstmt.setString(5, cardType);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
 
     public void buy_vacation_with_paypal(int vacationId, String buyer, String userpaypal, String pass) {
@@ -783,5 +790,17 @@ public class Model {
             e.printStackTrace();
         }
         return -1;
+    }
+
+    public void gotTheMoney(String id, String buyer) {
+        String sql1 = "DELETE FROM waitForSellar where vacationId=?";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt1 = conn.prepareStatement(sql1)) {
+            pstmt1.setInt(1, Integer.valueOf(id));
+            pstmt1.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }
