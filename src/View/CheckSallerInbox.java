@@ -34,7 +34,7 @@ public class CheckSallerInbox extends Acontrol {
         Stage stage=new Stage();
         Scene scene = new Scene(new Group());
         stage.setTitle("Table View Sample");
-        stage.setWidth(720);
+        stage.setWidth(900);
         stage.setHeight(500);
 
         final Label label = new Label("Inbox");
@@ -205,61 +205,61 @@ public class CheckSallerInbox extends Acontrol {
         Stage stage=new Stage();
         Scene scene = new Scene(new Group());
         stage.setTitle("Table View");
-        stage.setWidth(1420);
+        stage.setWidth(1200);
         stage.setHeight(500);
 
         final Label label = new Label("InboxTrade");
         label.setFont(new Font("Arial", 20));
 
         table.setEditable(true);
-        table.setMinWidth(1420);
+        table.setMinWidth(1200);
 
         TableColumn yourVacation = new TableColumn("Yours Vacation Details");
         TableColumn offerVacation = new TableColumn("The Offered Vacation Details");
 
 
         TableColumn firstNameCol = new TableColumn("Destination");
-        firstNameCol.setMinWidth(120);
+        firstNameCol.setMinWidth(90);
         firstNameCol.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("dest"));
 
         TableColumn lastNameCol = new TableColumn("Buyer Name");
-        lastNameCol.setMinWidth(120);
+        lastNameCol.setMinWidth(90);
         lastNameCol.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("buyer"));
 
         TableColumn emailCol = new TableColumn("Departure Date");
-        emailCol.setMinWidth(120);
+        emailCol.setMinWidth(90);
         emailCol.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("depar"));
 
         TableColumn ee = new TableColumn("Arrival Date");
-        ee.setMinWidth(120);
+        ee.setMinWidth(90);
         ee.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("arrive"));
 
         TableColumn vid = new TableColumn("Vacation_Id");
-        vid.setMinWidth(120);
+        vid.setMinWidth(90);
         vid.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("Vacation_Id"));
 
         TableColumn destT = new TableColumn("Destination");
-        destT.setMinWidth(120);
+        destT.setMinWidth(90);
         destT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("destTrade"));
 
         TableColumn depT = new TableColumn("Departure Date");
-        depT.setMinWidth(120);
+        depT.setMinWidth(90);
         depT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("deparTrde"));
 
         TableColumn arivT = new TableColumn("Arrival Date");
-        arivT.setMinWidth(120);
+        arivT.setMinWidth(90);
         arivT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("arriveTrde"));
 
         TableColumn vidT = new TableColumn("Vacation_Id");
-        vidT.setMinWidth(120);
+        vidT.setMinWidth(90);
         vidT.setCellValueFactory(
                 new PropertyValueFactory<InboxTrade, String>("Vacation_IdTrade"));
 
