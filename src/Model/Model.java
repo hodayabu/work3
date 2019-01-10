@@ -237,7 +237,7 @@ public class Model {
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
-            System.out.println(rs.getString("password"));
+            //System.out.println(rs.getString("password"));
             if (!rs.getString("password").equals(password)) {
                 return false;
             }
@@ -585,7 +585,6 @@ public class Model {
 
 
     }
-
 
 
     public ArrayList<Vacation> search_vacation_by_country(String country) {
